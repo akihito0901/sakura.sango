@@ -277,21 +277,41 @@
             </div>
         );
 
+        const DownArrow = () => (
+            <div className="w-full bg-white flex justify-center items-center py-6 relative z-10">
+                <div className="w-12 h-12 rounded-full bg-[#d49a9e] flex items-center justify-center text-white text-2xl shadow-lg border-2 border-white animate-bounce">
+                    <i className="fas fa-angle-down"></i>
+                </div>
+            </div>
+        );
+
         const App = () => {
             return (
                 <div className="w-full max-w-md mx-auto shadow-2xl bg-white min-h-screen relative font-sans overflow-hidden">
                     <FadeIn>
                         <img src="./images/img1.png" className="w-full h-auto block" alt="LP画像1" />
                     </FadeIn>
+                    
+                    <FadeIn delay={100}><DownArrow /></FadeIn>
+                    
                     <FadeIn>
                         <img src="./images/img3.jpeg" className="w-full h-auto block" alt="LP画像3" />
                     </FadeIn>
+
+                    <FadeIn delay={100}><DownArrow /></FadeIn>
+
                     <FadeIn>
                         <img src="./images/img4.jpeg" className="w-full h-auto block" alt="LP画像4" />
                     </FadeIn>
+
+                    <FadeIn delay={100}><DownArrow /></FadeIn>
+
                     <FadeIn>
                         <img src="./images/img5.jpeg" className="w-full h-auto block" alt="LP画像5" />
                     </FadeIn>
+
+                    <FadeIn delay={100}><DownArrow /></FadeIn>
+
                     <FadeIn>
                         <img src="./images/img6.png" className="w-full h-auto block" alt="LP画像6" />
                     </FadeIn>
