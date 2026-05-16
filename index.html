@@ -215,11 +215,11 @@
         );
 
         const VoiceCard = ({ name, attribute, title, content, stars = 5 }) => (
-            <div className="bg-white p-6 rounded-lg shadow-md border-t-4 border-luxury-gold relative">
+            <div className="bg-white p-6 rounded-lg shadow-md border-t-4 border-yellow-400 relative">
                 <div className="flex justify-between items-end mb-3 border-b border-gray-100 pb-2">
                     <div className="flex items-center gap-2">
                         <span className="font-bold text-gray-700 text-sm">Google</span>
-                        <div className="flex text-luxury-gold text-xs">
+                        <div className="flex text-yellow-400 text-xs">
                             {[...Array(stars)].map((_, i) => <i key={i} className="fas fa-star"></i>)}
                         </div>
                     </div>
@@ -241,23 +241,24 @@
                 { name: "S.Tさん", attribute: "30代女性", t: "キッズスペース完備で助かる", c: "辛かった肩こりも一度で楽になり、体が軽くなりました。キッズスペースもあります！" },
                 { name: "W.Aさん", attribute: "30代女性", t: "産後の不調が改善", c: "母の腰痛と自分の不調で通院。先生の親身な対応と清潔な院内で安心して施術を受けられます。" },
                 { name: "N.Yさん", attribute: "30代女性", t: "「今までの整骨院とは違う」", c: "首の凝りと腰痛で悩んでいましたが、確実に良くなっているのを実感。継続したいと思える施術です。" },
+                { name: "K.Oさん", attribute: "30代女性", t: "託児がめっちゃ助かった！", c: "上の子も連れて行けるか不安でしたが、無料の託児サービスがあって本当に助かりました。施術中はゆっくりリラックスできました。" },
+                { name: "M.Iさん", attribute: "20代女性", t: "LINEで予約が簡単でよかった", c: "赤ちゃんのお世話で電話する余裕がなかったので、LINEで24時間いつでも簡単に予約できたのが本当に良かったです！" },
+                { name: "Y.Hさん", attribute: "30代女性", t: "妊娠前のズボンが履けました", c: "産後どうしても骨盤周りが戻らず悩んでいましたが、通い始めてからスッと履けるようになり感動しています。" },
+                { name: "A.Kさん", attribute: "40代女性", t: "腰の痛みがスッキリ", c: "抱っこのしすぎで腰が限界でしたが、一度の施術でかなり楽になりました。先生も優しくて話しやすいです。" },
+                { name: "E.Mさん", attribute: "30代女性", t: "丁寧なカウンセリングで安心", c: "今の体の状態をしっかり説明してくれて、納得して施術を受けることができました。これからもお世話になります。" },
             ];
 
             return (
-                <div className="bg-[#f0fdf4] py-16 px-4">
+                <div className="bg-yellow-50 py-16 px-4">
                     <div className="max-w-4xl mx-auto">
                         <div className="text-center mb-10">
-                            <span className="text-luxury-navy font-bold tracking-widest text-xs uppercase block mb-2">REVIEWS</span>
-                            <h3 className="font-serif font-bold text-2xl text-[#5d5c58]">
-                                ママさんたちの喜びの声
-                            </h3>
-                            <div className="w-12 h-0.5 bg-luxury-gold mx-auto mt-4 mb-6"></div>
+                            <img src="./images/reviews-title.png" alt="リアルなお声をご紹介！" className="mx-auto w-full max-w-[300px] mb-6 drop-shadow-md" />
                             <div className="inline-flex items-center gap-3 bg-white px-5 py-3 rounded-full shadow-md border border-gray-100">
                                 <span className="font-bold text-lg text-gray-700">Google</span>
-                                <div className="flex text-luxury-gold text-lg drop-shadow-sm">
+                                <div className="flex text-yellow-400 text-lg drop-shadow-sm">
                                     <i className="fas fa-star"></i><i className="fas fa-star"></i><i className="fas fa-star"></i><i className="fas fa-star"></i><i className="fas fa-star"></i>
                                 </div>
-                                <span className="font-serif font-black text-2xl text-luxury-gold">5.0</span>
+                                <span className="font-serif font-black text-2xl text-yellow-500">5.0</span>
                             </div>
                         </div>
                         <div className="grid grid-cols-1 gap-6">
