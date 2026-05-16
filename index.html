@@ -138,12 +138,43 @@
     <div id="root"></div>
 
     <script type="text/babel">
-        const { useState, useEffect } = React;
+        const { useState, useEffect, useRef } = React;
+
+        const FadeIn = ({ children, delay = 0 }) => {
+            const [isVisible, setIsVisible] = useState(false);
+            const domRef = useRef();
+
+            useEffect(() => {
+                const observer = new IntersectionObserver(entries => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            setIsVisible(true);
+                        }
+                    });
+                }, { threshold: 0.1 });
+                if (domRef.current) observer.observe(domRef.current);
+                return () => {
+                    if (domRef.current) observer.unobserve(domRef.current);
+                };
+            }, []);
+
+            return (
+                <div
+                    ref={domRef}
+                    className={`transition-all duration-1000 ease-out ${
+                        isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+                    }`}
+                    style={{ transitionDelay: `${delay}ms` }}
+                >
+                    {children}
+                </div>
+            );
+        };
 
         const YouTubeVideo = () => (
-            <div className="bg-white py-8 px-4">
+            <div className="bg-white py-12 px-4">
                 <div className="max-w-4xl mx-auto text-center">
-                    <h3 className="font-serif font-bold text-xl text-[#5d5c58] mb-4">
+                    <h3 className="font-serif font-bold text-xl text-[#5d5c58] mb-6">
                         実際の施術の様子をご覧ください
                     </h3>
                     <div className="aspect-w-16 aspect-h-9 w-full shadow-lg overflow-hidden relative" style={{ paddingBottom: '56.25%' }}>
@@ -161,19 +192,19 @@
         );
 
         const Director = () => (
-            <div className="bg-[#fdfbf7] py-10 px-4 border-y border-gray-100">
+            <div className="bg-[#fdfbf7] py-12 px-4 border-y border-gray-100">
                 <div className="max-w-4xl mx-auto">
-                    <div className="text-center mb-6">
+                    <div className="text-center mb-8">
                         <h3 className="font-serif font-bold text-2xl text-[#5d5c58]">
                             院長挨拶
                         </h3>
-                        <div className="w-12 h-0.5 bg-luxury-gold mx-auto mt-3"></div>
+                        <div className="w-12 h-0.5 bg-luxury-gold mx-auto mt-4"></div>
                     </div>
                     <div className="flex flex-col items-center gap-6">
                         <img src="./images/director.jpg" alt="院長" className="rounded-full w-32 h-32 object-cover shadow-lg border-4 border-luxury-gold" />
                         <div className="text-center">
                             <p className="text-sm font-bold text-luxury-navy mb-1">桜並木駅前の整骨院 院長</p>
-                            <h4 className="font-serif text-xl font-bold mb-4">吉住</h4>
+                            <h4 className="font-serif text-2xl font-bold mb-4 tracking-wider">今坂 智和</h4>
                             <p className="text-sm text-gray-600 leading-relaxed text-justify px-2">
                                 はじめまして。当院のページをご覧いただきありがとうございます。産後のママさんは、育児の疲れや身体の痛みを我慢しがちです。私たちは、そんなママさんたちが心身ともにリフレッシュし、笑顔で子育てを楽しめるよう全力でサポートいたします。お子様連れでも安心して通える環境を整えておりますので、ぜひお気軽にご相談ください。
                             </p>
@@ -182,6 +213,64 @@
                 </div>
             </div>
         );
+
+        const VoiceCard = ({ name, attribute, title, content, stars = 5 }) => (
+            <div className="bg-white p-6 rounded-lg shadow-md border-t-4 border-luxury-gold relative">
+                <div className="flex justify-between items-end mb-3 border-b border-gray-100 pb-2">
+                    <div className="flex items-center gap-2">
+                        <span className="font-bold text-gray-700 text-sm">Google</span>
+                        <div className="flex text-luxury-gold text-xs">
+                            {[...Array(stars)].map((_, i) => <i key={i} className="fas fa-star"></i>)}
+                        </div>
+                    </div>
+                    <div className="text-xs text-gray-500 font-bold text-right leading-tight">
+                        <span className="block text-luxury-navy mb-0.5">{attribute}</span>
+                        <span>{name}</span>
+                    </div>
+                </div>
+                <h4 className="font-serif font-bold text-base mb-3 text-luxury-navy leading-snug">{title}</h4>
+                <p className="text-sm text-gray-600 leading-7 text-justify font-sans">
+                    {content}
+                </p>
+            </div>
+        );
+
+        const Reviews = () => {
+            const data = [
+                { name: "S.Sさん", attribute: "30代女性", t: "毎回赤ちゃん連れでも安心", c: "産後の腰痛で来院。施術中は先生やスタッフがお世話してくれて助かりました。説明もわかりやすいです。" },
+                { name: "S.Tさん", attribute: "30代女性", t: "キッズスペース完備で助かる", c: "辛かった肩こりも一度で楽になり、体が軽くなりました。キッズスペースもあります！" },
+                { name: "W.Aさん", attribute: "30代女性", t: "産後の不調が改善", c: "母の腰痛と自分の不調で通院。先生の親身な対応と清潔な院内で安心して施術を受けられます。" },
+                { name: "N.Yさん", attribute: "30代女性", t: "「今までの整骨院とは違う」", c: "首の凝りと腰痛で悩んでいましたが、確実に良くなっているのを実感。継続したいと思える施術です。" },
+            ];
+
+            return (
+                <div className="bg-[#f0fdf4] py-16 px-4">
+                    <div className="max-w-4xl mx-auto">
+                        <div className="text-center mb-10">
+                            <span className="text-luxury-navy font-bold tracking-widest text-xs uppercase block mb-2">REVIEWS</span>
+                            <h3 className="font-serif font-bold text-2xl text-[#5d5c58]">
+                                ママさんたちの喜びの声
+                            </h3>
+                            <div className="w-12 h-0.5 bg-luxury-gold mx-auto mt-4 mb-6"></div>
+                            <div className="inline-flex items-center gap-3 bg-white px-5 py-3 rounded-full shadow-md border border-gray-100">
+                                <span className="font-bold text-lg text-gray-700">Google</span>
+                                <div className="flex text-luxury-gold text-lg drop-shadow-sm">
+                                    <i className="fas fa-star"></i><i className="fas fa-star"></i><i className="fas fa-star"></i><i className="fas fa-star"></i><i className="fas fa-star"></i>
+                                </div>
+                                <span className="font-serif font-black text-2xl text-luxury-gold">5.0</span>
+                            </div>
+                        </div>
+                        <div className="grid grid-cols-1 gap-6">
+                            {data.map((d, idx) => (
+                                <FadeIn key={idx} delay={idx * 150}>
+                                    <VoiceCard name={d.name} attribute={d.attribute} title={d.t} content={d.c} />
+                                </FadeIn>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+            );
+        };
 
         const StickyCTA = () => (
             <div className="fixed bottom-0 left-0 w-full bg-white/95 backdrop-blur border-t border-gray-200 p-3 shadow-[0_-5px_20px_-5px_rgba(0,0,0,0.1)] z-50 flex justify-center">
@@ -196,20 +285,38 @@
 
         const App = () => {
             return (
-                <div className="w-full max-w-md mx-auto shadow-2xl bg-white min-h-screen relative font-sans">
-                    {/* 提供された画像をそのまま縦に並べる */}
-                    <img src="./images/img1.png" className="w-full h-auto block" alt="LP画像1" />
-                    <img src="./images/img2.jpeg" className="w-full h-auto block" alt="LP画像2" />
-                    <img src="./images/img3.jpeg" className="w-full h-auto block" alt="LP画像3" />
+                <div className="w-full max-w-md mx-auto shadow-2xl bg-white min-h-screen relative font-sans overflow-hidden">
+                    <FadeIn>
+                        <img src="./images/img1.png" className="w-full h-auto block" alt="LP画像1" />
+                    </FadeIn>
+                    <FadeIn>
+                        <img src="./images/img2.jpeg" className="w-full h-auto block" alt="LP画像2" />
+                    </FadeIn>
+                    <FadeIn>
+                        <img src="./images/img3.jpeg" className="w-full h-auto block" alt="LP画像3" />
+                    </FadeIn>
+                    <FadeIn>
+                        <img src="./images/img4.jpeg" className="w-full h-auto block" alt="LP画像4" />
+                    </FadeIn>
+                    <FadeIn>
+                        <img src="./images/img5.jpeg" className="w-full h-auto block" alt="LP画像5" />
+                    </FadeIn>
                     
-                    {/* 途中に動画と院長挨拶を挟む */}
-                    <YouTubeVideo />
-                    <Director />
+                    {/* img5の後に動画と院長挨拶 */}
+                    <FadeIn>
+                        <YouTubeVideo />
+                    </FadeIn>
+                    <FadeIn>
+                        <Director />
+                    </FadeIn>
                     
-                    {/* 残りの画像 */}
-                    <img src="./images/img4.jpeg" className="w-full h-auto block" alt="LP画像4" />
-                    <img src="./images/img5.jpeg" className="w-full h-auto block" alt="LP画像5" />
-                    <img src="./images/img6.png" className="w-full h-auto block" alt="LP画像6" />
+                    {/* 最後の画像 */}
+                    <FadeIn>
+                        <img src="./images/img6.png" className="w-full h-auto block" alt="LP画像6" />
+                    </FadeIn>
+
+                    {/* 最後の画像の後に口コミ */}
+                    <Reviews />
                     
                     <div className="pb-24"></div> {/* Sticky CTAが被らないための余白 */}
                     <StickyCTA />
